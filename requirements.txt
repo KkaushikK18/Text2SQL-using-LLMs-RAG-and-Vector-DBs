@@ -1,0 +1,16 @@
+google-genai
+python-dotenv
+faiss-cpu
+numpy
+sqlalchemy
+alembic
+Faker
+pydantic
+pydantic-settings
+langchain
+langchain-google-genai
+langchain-community
+sqlparse
+fastapi
+uvicorn
+pandas
