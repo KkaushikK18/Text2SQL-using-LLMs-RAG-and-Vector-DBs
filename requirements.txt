@@ -14,3 +14,9 @@ sqlparse
 fastapi
 uvicorn
 pandas
+streamlit
+requests
+plotly
+matplotlib
+pytest
+httpx

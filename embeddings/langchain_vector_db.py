@@ -49,8 +49,8 @@ def get_retriever():
     embeddings = GoogleGenerativeAIEmbeddings(model=settings.EMBEDDING_MODEL)
     vectorstore = FAISS.load_local(settings.FAISS_INDEX_PATH, embeddings, allow_dangerous_deserialization=True)
     
-    # We return the top 5 tables that match the semantic query
-    return vectorstore.as_retriever(search_kwargs={"k": 5})
+    # We return the top 15 tables that match the semantic query
+    return vectorstore.as_retriever(search_kwargs={"k": 15})
 
 if __name__ == "__main__":
     build_langchain_vectorstore()

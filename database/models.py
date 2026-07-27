@@ -97,6 +97,10 @@ class Order(Base, TimestampMixin):
     coupon = relationship("Coupon", back_populates="orders")
 
 class OrderItem(Base, TimestampMixin):
+    """
+    Contains individual items for each order.
+    Use this table to calculate revenue, sales, and total income by summing `subtotal` or `quantity * unit_price`.
+    """
     __tablename__ = "order_items"
     
     id = Column(Integer, primary_key=True, autoincrement=True)

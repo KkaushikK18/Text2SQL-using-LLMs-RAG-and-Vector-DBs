@@ -27,6 +27,7 @@ CRITICAL RULES:
 2. Ensure you use the exact table and column names provided in the schema.
 3. Use proper JOINs using the specified Foreign Keys.
 4. Do NOT use DROP, DELETE, UPDATE, or INSERT. Only SELECT statements are allowed.
+5. To calculate "revenue" or "sales", you MUST use the `subtotal` (or `quantity * unit_price`) from the `order_items` table. Never calculate revenue just by summing `price` from `products`.
 
 Relevant Schema Context:
 {context}
@@ -41,13 +42,13 @@ def format_docs(docs):
 def extract_sql(text: str) -> str:
     """Cleans up markdown formatting if the LLM ignores instructions."""
     text = text.strip()
-    match = re.search(r'```sql(.*?)```', text, re.DOTALL)
+    match = re.search(r'```(?:sql|sqlite)?\s*(.*?)```', text, re.DOTALL | re.IGNORECASE)
     if match:
         return match.group(1).strip()
-    match = re.search(r'```(.*?)```', text, re.DOTALL)
-    if match:
-        return match.group(1).strip()
-    return text
+    
+    # Sometimes it outputs just `sqlite` at the beginning
+    text = re.sub(r'^(sqlite|sql)\s+', '', text, flags=re.IGNORECASE)
+    return text.strip()
 
 def build_sql_chain():
     """
