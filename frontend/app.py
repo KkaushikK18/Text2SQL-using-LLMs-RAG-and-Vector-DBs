@@ -40,7 +40,8 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # API Configuration
-API_URL = "http://localhost:8000"
+# Use environment variable for deployment, default to localhost for local testing
+API_URL = os.getenv("API_URL", "http://localhost:8000")
 
 # Initialize Session State
 if "session_id" not in st.session_state:
@@ -94,6 +95,9 @@ for message in st.session_state.messages:
             
         if "error" in message and message["error"]:
             st.error(message["error"])
+            
+        if "summary" in message and message["summary"]:
+            st.success(f"**Agent Insight:** {message['summary']}")
 
 # Chat input
 if prompt := st.chat_input("E.g., Which supplier generated the highest revenue in Electronics during the last quarter?"):
@@ -146,9 +150,15 @@ if prompt := st.chat_input("E.g., Which supplier generated the highest revenue i
                         "execution_time": exec_time,
                         "columns": columns,
                         "data": result_data,
-                        "error": error_msg if not is_successful else None
+                        "error": error_msg if not is_successful else None,
+                        "summary": data.get("natural_language_summary")
                     })
                     
+                    # Display Agent Insight
+                    summary = data.get("natural_language_summary")
+                    if summary:
+                        st.success(f"**Agent Insight:** {summary}")
+                        
                 else:
                     error_detail = response.json().get("detail", "Unknown error")
                     st.error(f"Failed to execute query: {error_detail}")
