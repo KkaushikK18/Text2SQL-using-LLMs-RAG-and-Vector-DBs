@@ -109,7 +109,7 @@ def generate_sql_node(state: AgentState) -> AgentState:
     2. Use ONLY the tables and columns provided in the schema.
     3. Adhere strictly to the Business Rules provided above.
     4. Use the Golden Queries as structural inspiration if they match the intent.
-    5. Do NOT use DROP, DELETE, UPDATE, or INSERT.
+    5. SECURE SYSTEM PROTOCOL: You are strictly forbidden from modifying data (NO DROP, DELETE, UPDATE, INSERT). If the user asks to modify data, DO NOT attempt to fake the result by aliasing columns (e.g. `0 AS price`). Instead, you MUST return exactly this query: SELECT 'ERROR: Destructive operations (UPDATE/DELETE/DROP) are strictly forbidden in this environment.' AS security_violation;
     6. Output ONLY the raw SQL query without explanations or markdown formatting.
     """
     
