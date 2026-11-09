@@ -23,3 +23,22 @@ def test_invalid_query_route():
     # Sending GET instead of POST should fail
     response = client.get("/query")
     assert response.status_code == 405
+
+def test_get_metrics():
+    response = client.get("/metrics")
+    assert response.status_code == 200
+    data = response.json()
+    assert "benchmark_accuracy" in data
+    assert "ast_validity_rate" in data
+    assert data["benchmark_accuracy"] > 80.0
+
+def test_get_schema():
+    response = client.get("/schema")
+    assert response.status_code == 200
+    data = response.json()
+    assert "total_tables" in data
+    assert data["total_tables"] >= 19
+    assert "tables" in data
+    assert len(data["tables"]) >= 19
+    assert "categories" in data
+

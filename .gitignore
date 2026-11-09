@@ -3,3 +3,7 @@
 venv
 test.db
 test.py
+*.pptx
+presentation.md
+project_presentation.md
+workflow.md 
